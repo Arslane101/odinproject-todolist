@@ -1,0 +1,24 @@
+#sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #fcfaf8;
+    overflow-x: hidden; /*Disable horizontal scroll*/
+    transition: 0.5s;
+}
+.closebtn {
+    position: absolute;
+    top: 29px;
+    right: 20px;
+}
+.openbtn {
+    cursor: pointer;
+    color: lightgray;
+    border: none
+}
+#main {
+    transition: margin-left .5s;
+    padding: 20px;
+}

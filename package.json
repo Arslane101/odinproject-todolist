@@ -2,10 +2,10 @@
   "name": "odinproject-todolist",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index2.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "install": "npm install -D html-webpack-plugin && npm install -D css-loader style-loader && npm install date-fns --save -D && npm install -D webpack-dev-server",
+    "install": "npm install -D html-loader && npm install -D html-webpack-plugin && npm install -D css-loader style-loader && npm install date-fns --save -D && npm install -D webpack-dev-server",
     "dev": "webpack serve",
     "build":  "npx webpack"
   },
