@@ -1,5 +1,7 @@
 console.log("hello")
-
+const submit = document.querySelector("#submit-form")
+const dialog =document.querySelector("#task-form")
+const form = document.querySelector("#form-task")
 
 
 class Todos {
@@ -23,4 +25,20 @@ class Todos {
         }
 }
 
-export default Todos
+let tasklist = []
+function submittask(event){
+    event.preventDefault()
+    let formData = new FormData(form,submit)
+    dialog.close()
+    let array = Array.from(formData.values())
+    let task = new Todos(...array)
+    tasklist.push(task)
+    console.log(tasklist)
+
+    console.log("hey")
+
+    
+
+}
+
+export  {Todos,submittask}
