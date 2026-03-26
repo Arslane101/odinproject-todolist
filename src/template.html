@@ -6,6 +6,29 @@
     <title>Document</title>
 </head>
 <body>
+    <dialog popover id="task-form">
+    <form class="task">
+     <div id="inputs">
+    <input type="text" name="title" id="title" placeholder="Buy groceries">
+    <input type="text" name="description" id="description" placeholder="Description">
+    <div id="tags" >
+    <input type="date" name="deadline" id="deadline" >
+    <select name="priority" id="priority" >
+        <option value="" selected disabled hidden>Priority</option>
+        <option value="p1">Priority 1</option>
+        <option value="p2">Priority 2</option>
+        <option value="p3">Priority 3</option>
+        <option value="p4" >Priority 4</option>
+     </select> 
+    </div>
+    </div>
+    <div id="buttons">
+    <button id="close-btn">Close</button>
+    <button popovertarget="task-form" command="Submit" type="submit" id="submit-form">Add task</button>
+    
+    </div>
+    </form>
+    </dialog>
     <div id="container">
 
     </div>
