@@ -4,8 +4,8 @@ import sidebaricon from "./icons/sidebar.svg"
 import addicon from "./icons/plus-circle.svg"
 import flag from "./icons/flag.svg"
 
-let colors = ["#D1453B","#EB8909","#246FE0","white"]
-
+let colors = ["#D1453B","#EB8909","#246FE0","black"]
+export default colors
 let todo = new Todos("","","","")
 
 const body = document.querySelector("#container")
@@ -24,8 +24,7 @@ sidebar.id = "sidebar"
 let link = createLink("javascript:void(0)","closebtn")
 sidebar.appendChild(link)
 body.appendChild(sidebar)
-let div = document.createElement("div")
-div.id = "main"
+let div = document.querySelector("#main")
 let openbutton = document.createElement("button")
 let icon = document.createElement("img")
 icon.id="main-icon"
@@ -50,9 +49,7 @@ openbutton.addEventListener("click",() => {
     else clickCount=0
     
 })
-
 div.appendChild(openbutton)
-body.appendChild(div)
 
 /*Add task button*/
 let addbutton = document.createElement("button")
@@ -77,26 +74,17 @@ closebutton.addEventListener("click",() => modal.close())
 addbutton.prepend(addicons)
 sidebar.appendChild(addbutton)   
 
-/*priorities coloring*/
+/*priorities coloring (needs work)
 let submit = document.querySelector("#priority")
 let flagicon = document.createElement("img")
 flagicon.src = flag
-let filter = ["invert(36%) sepia(85%) saturate(1437%) hue-rotate(325deg) brightness(91%) contrast(92%)","invert(65%) sepia(87%) saturate(2811%) hue-rotate(360deg) brightness(101%) contrast(106%)","invert(36%) sepia(85%) saturate(2250%) hue-rotate(200deg) brightness(97%) contrast(89%)","white"]
-flagicon.style.filter = filter[0]
-submit.options["0"].prepend(flagicon)
-for (let i=1;i<colors.length;i++){
-    let clone = flagicon.cloneNode(true)
-    clone.style.filter = filter[i]
-    submit.options[toString(i)].prepend(clone)
-    
-}
+let filter = ["invert(36%) sepia(85%) saturate(1437%) hue-rotate(325deg) brightness(91%) contrast(92%)","invert(65%) sepia(87%) saturate(2811%) hue-rotate(360deg) brightness(101%) contrast(106%)","invert(36%) sepia(85%) saturate(2250%) hue-rotate(200deg) brightness(97%) contrast(89%)"]
+flagicon.style.width = "20px"
+flagicon.style.height = "20px"
+*/
 /* Today's tasks*/
-let todaydiv = document.createElement("div")
-let todaytitle = document.createElement("h2")
-todaytitle.textContent = "Today"
-todaydiv.appendChild(todaytitle)
-todaytitle.style.margin = "0"
-div.append(todaydiv)
+
+
 
 submitbutton.addEventListener("click",submittask)
 
