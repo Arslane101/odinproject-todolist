@@ -4,6 +4,9 @@ body {
 button {
     cursor: pointer;
 }
+.sidebar-buttons {
+    margin-left: 10px;
+}
 #sidebar {
     height: 100%;
     width: 0;
@@ -18,7 +21,7 @@ button {
     justify-content: flex-start;
     padding-left: 20px;
     align-items: flex-start;
-    margin-top: 25px;
+    gap: 30px;
 }
 .closebtn {
     position: absolute;
@@ -61,7 +64,7 @@ button {
     border: none;
     border-radius: 10px;
     width: 500px;
-    height: 150px;
+    min-height: 150px;
     padding: 10px;
     text-align: center;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
@@ -108,4 +111,78 @@ input {
     justify-content: flex-end;
     
 }
+#bottomspace {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.combobox {
+    width: 100px;
+    display: flex;
+    align-items: center;
+}
 
+#combo-input {
+    width: 100px;
+    padding: 8px;
+    box-sizing: border-box;
+}
+#combo-options {
+    border: 1px solid #fcfaf8;
+    width: 100%;
+    background: white;
+    max-height: 30px;
+    overflow-x: auto;
+    display: none;
+    z-index: 10;
+    position: relative;
+    font-size: 15px;
+    font-weight: bold;
+
+}
+.option-item {
+    padding: 8px;
+    cursor: pointer
+}
+.combobox {
+    z-index: 10;
+
+}
+
+.option-item:hover {
+    background-color: #f0f0f0 ;
+}
+
+.new-option {
+    color: #DF5141;
+    border-top: 1px solid #eee;
+
+}
+
+.special::before {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url("./icons/folder-outline.svg");
+    background-size: contain;
+    vertical-align: middle;
+    margin-right: 10px;
+    margin-left: 5px;
+    
+}
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin-left: 50px;
+  overflow: hidden;
+  max-height: 0; 
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-container.open .nav-list {
+    max-height: 500px;
+    opacity: 1;
+    margin-top: 5px;
+}

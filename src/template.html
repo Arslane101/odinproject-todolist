@@ -13,7 +13,7 @@
     <input type="text" name="description" id="description" placeholder="Description">
     <div id="tags" >
     <input type="date" name="deadline" id="deadline" >
-    <select name="priority" id="priority" >
+    <select style="background-color: #fcfaf8;" name="priority" id="priority" >
         <option  value="p1">
             Priority 1</option>
         <div id = "p2">
@@ -31,10 +31,19 @@
      </select> 
     </div>
     </div>
+    <div id="bottomspace">
+    <div class="combobox">
+        <img src="./icons/folder-outline.svg" width="20px" height="20px">
+        <div style="display: flex;flex-direction: column; gap:1Opx">
+        <input type="text" id="combo-input" placeholder="default" autocomplete="off">
+        <div id="combo-options" class="options-list">
+            </div>
+        </div>
+        </div>
     <div id="buttons">
     <button id="close-btn">Close</button>
     <button popovertarget="task-form" command="Submit" type="submit" id="submit-form">Add task</button>
-    
+    </div>
     </div>
     </form>
     </dialog>
