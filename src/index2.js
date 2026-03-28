@@ -2,7 +2,9 @@ import {tasklist, submittask,createLayout} from "./index.js"
 import "./style.css"
 import sidebaricon from "./icons/sidebar.svg"
 import addicon from "./icons/plus-circle.svg"
+import {isToday} from "date-fns"
 
+import filter from "./icons/filter.svg" 
 let colors = ["#D1453B","#EB8909","#246FE0","black"]
 export default colors
 
@@ -172,6 +174,7 @@ function renderList(filter = "") {
         const addDiv = document.createElement("div")
         addDiv.className = "new-option"
         addDiv.textContent = `Add ${filter}`
+        addDiv.style.cursor = "pointer"
         addDiv.onclick = () => {
             addItem(filter)
             let li = document.createElement("li")
@@ -198,7 +201,64 @@ for (let prj of items){
     li.textContent = prj
     li.style.cursor = "pointer"
     li.style.fontStyle = "italic"
+    li.style.fontWeight = "bold"
     navlist.appendChild(li)
    
 
 }
+
+/*View : Default vs Today's tasks*/
+let switches = document.getElementById("view")
+switches.style.border = "none"
+let filtericon = document.createElement("img")
+filtericon.src = filter
+filtericon.style.width = "20px"
+filtericon.style.height = "20px"
+switches.textContent = "View"
+switches.style.fontSize = "17px"
+switches.style.fontWeight = "bold"
+switches.style.textAlign = "center"
+switches.prepend(filtericon)
+switches.style.width = "70px"
+switches.style.height = "30px"
+switches.style.display = "flex"
+switches.style.alignItems = "center"
+switches.style.borderRadius = "20%"
+switches.style.backgroundColor = "white"
+
+
+const dropdown = document.getElementById('tools-dropdown');
+const trigger = dropdown.querySelector("#view");
+
+trigger.addEventListener('click', (e) => {
+  // Prevent click from bubbling up (useful for closing when clicking outside)
+  e.stopPropagation();
+  dropdown.classList.toggle('is-open');
+});
+
+// Close the menu if you click anywhere else on the page
+document.addEventListener('click', () => {
+  dropdown.classList.remove('is-open');
+});
+
+const viewlist = dropdown.querySelector(".dropdown-content")
+viewlist.addEventListener("click", function(event) {
+  // Check if the clicked element (event.target) is an LI
+  if (event.target && event.target.matches("li")) {
+    event.target.classList.add("is-active");
+    if(event.target.textContent === "View today's tasks"){
+        document.querySelector("#second").classList.remove("is-active")
+        let space = document.getElementById("today")
+        let heading = space.querySelector("h2")
+        heading.textContent = "Today"
+        for (const tk of tasklist){
+            if(isToday(tk.getDate())=== true) createLayout(tk)
+        }
+    }
+    else {
+        let toremove =document.querySelector("#first")
+        toremove.classList.remove("is-active")
+        clearContent("default")
+    }
+  }
+});

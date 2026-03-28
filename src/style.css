@@ -186,3 +186,47 @@ input {
     opacity: 1;
     margin-top: 5px;
 }
+
+.dropdown-wrapper {
+  position: relative; /* Anchor point */
+  display: inline-block;
+}
+
+
+.dropdown-content {
+  position: absolute;
+  top: 110%; /* Places it just below the button */
+  left: 0;
+  width: 160px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  list-style: none;
+  padding: 8px 0;
+  margin: 0;
+  padding-left: 20px;
+
+  /* Hiding the menu initially */
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none; 
+  transition: all 0.2s ease;
+}
+
+/* THE MAGIC: When the parent has the .is-open class */
+.dropdown-wrapper.is-open .dropdown-content {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.dropdown-content.li {
+    cursor: pointer;
+}
+
+.is-active::before {
+  content: '✓'; 
+  margin-right: 8px;
+  color: #007bff;
+}

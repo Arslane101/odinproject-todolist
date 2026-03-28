@@ -6,6 +6,7 @@ import {isToday} from "date-fns"
 import colors  from "./index2.js"
 class Todos {
     constructor(title, description , dueDate, priority){
+        this.id = crypto.randomUUID()
         this.description = description
         this.title = title
         this.dueDate = dueDate
@@ -25,6 +26,9 @@ class Todos {
         }
         getDate() {
             return `${this.dueDate}`
+        }
+        getID() {
+            return `${this.id}`
         }
 }
 function createLayout(task){
@@ -55,6 +59,7 @@ function createLayout(task){
             taskspace.style.pointerEvents = "none"
             taskspace.addEventListener('transitionend',() => {
                 taskspace.remove()
+                tasklist.splice(tasklist.findIndex(item => item.getID() === task.getID()),1)
             },{once : true})
             
         }
