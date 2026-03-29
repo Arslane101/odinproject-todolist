@@ -60,6 +60,7 @@ function createLayout(task){
             taskspace.addEventListener('transitionend',() => {
                 taskspace.remove()
                 tasklist.splice(tasklist.findIndex(item => item.getID() === task.getID()),1)
+                console.log(tasklist)
             },{once : true})
             
         }
@@ -114,7 +115,15 @@ function submittask(event){
     let task = new Todos(...array)
     if(data.value !== "default") task.setProject(data.value)
     tasklist.push(task)
-    console.log(task)
+    if(!localStorage.getItem("tasklist")){
+        localStorage.setItem("tasklist",JSON.stringify(tasklist))
+    }
+    else {
+        localStorage.removeItem("tasklist")
+        localStorage.setItem("tasklist",JSON.stringify(tasklist))
+
+
+    }
     if(isToday(task.getDate())=== true) createLayout(task)
     
     

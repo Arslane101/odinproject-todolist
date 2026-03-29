@@ -2,11 +2,19 @@ import {tasklist, submittask,createLayout} from "./index.js"
 import "./style.css"
 import sidebaricon from "./icons/sidebar.svg"
 import addicon from "./icons/plus-circle.svg"
+import trash from "./icons/trash-can-outline.svg"
 import {isToday} from "date-fns"
 
 import filter from "./icons/filter.svg" 
 let colors = ["#D1453B","#EB8909","#246FE0","black"]
 export default colors
+
+let items 
+if (!localStorage.getItem("projectlist")){
+    items = []
+}
+else items = JSON.parse(localStorage.getItem("projectlist"))
+
 
 const body = document.querySelector("#container")
 
@@ -17,7 +25,43 @@ function createLink(path,classname){
 
     return link
 }
-
+function createNavlink(text){
+    let trashicon = document.createElement("img")
+    trashicon.id="trash-icon"
+    trashicon.src = trash
+    trashicon.style.width = "20px"
+    trashicon.style.height = "20px"
+    let li = document.createElement("li")
+    li.textContent = text
+    li.id = text+"something"
+    li.style.cursor = "pointer"
+    let button = document.createElement("button")
+    button.style.border = "none"
+    button.prepend(trashicon)
+    button.id = text
+    button.style.backgroundColor="white"
+    button.addEventListener("click",() => {
+        document.getElementById(button.id+"something").remove()
+        let fltr = tasklist.filter(tsk => tsk.project === button.id)
+        items.splice(items.findIndex(content => content === button.id))
+        for (let elt of fltr){
+            tasklist.splice(tasklist.findIndex(item => item.getID() === elt.getID()),1)
+        }
+            if(!localStorage.getItem("tasklist")){
+            localStorage.setItem("tasklist",JSON.stringify(tasklist))
+        }
+        else {
+            localStorage.removeItem("tasklist")
+            localStorage.setItem("tasklist",JSON.stringify(tasklist))
+        }
+    })
+    li.appendChild(button)
+    li.style.display = "flex"
+    li.style.gap = "50px" 
+    li.style.fontStyle = "italic"
+    li.style.fontWeight = "bold"
+    navlist.appendChild(li)
+}
 let sidebar = document.createElement("sidebar")
 let clickCount = 0 
 sidebar.id = "sidebar"
@@ -94,7 +138,11 @@ function clearContent(text){
     heading.textContent = "Project : " + text  
     heading.style.margin = "0"
     space.appendChild(heading)
+    if(!localStorage.getItem("tasklist")){
+        tasklist = JSON.parse(localStorage.getItem("tasklist"))
+    }
     let view = tasklist.filter(task => task.project === text)
+    
     console.log("here")
     console.log(view)
     for (const tsk of view){
@@ -126,10 +174,12 @@ projectlist.appendChild(header)
 sidebar.appendChild(projectlist)
 let navlist = document.createElement("ul")
 navlist.className = "nav-list"
+navlist.id = "navigation"
 navlist.addEventListener("click", function(event) {
   // Check if the clicked element (event.target) is an LI
   if (event.target && event.target.matches("li")) {
     event.target.classList.add("active");
+    event.target.style.fontWeight = "900"
     clearContent(event.target.textContent)
   }
 });
@@ -144,7 +194,7 @@ toggle.addEventListener('click', () => {
 /*Add project and select */
 let combo = document.querySelector("#combo-input")
 let options = document.querySelector("#combo-options")
-let items = []
+
 function selectItem(val) {
   combo.value = val;
   options.style.display = 'none';
@@ -177,12 +227,18 @@ function renderList(filter = "") {
         addDiv.style.cursor = "pointer"
         addDiv.onclick = () => {
             addItem(filter)
-            let li = document.createElement("li")
-            li.textContent = filter
-            li.style.color = "black"
-            li.style.cursor = "pointer"
-            li.style.fontStyle = "italic"
-            navlist.appendChild(li)
+            createNavlink(filter)
+
+            if(!localStorage.getItem("projectlist")){
+                localStorage.setItem("projectlist",JSON.stringify(items))
+                console.log(localStorage.getItem("projectlist"))
+            }
+            else {
+                localStorage.removeItem("projectlist")
+                localStorage.setItem("projectlist",JSON.stringify(items))
+                console.log(localStorage.getItem("projectlist"))
+
+            }
 
 
 
@@ -195,17 +251,18 @@ function renderList(filter = "") {
 combo.addEventListener('input',(e) => renderList(e.target.value))
 
 
-
-for (let prj of items){
-    let li = document.createElement("li")
-    li.textContent = prj
-    li.style.cursor = "pointer"
-    li.style.fontStyle = "italic"
-    li.style.fontWeight = "bold"
-    navlist.appendChild(li)
-   
-
+if(!localStorage.getItem("projectlist")){
+    for (let prj of items){
+        createNavlink(prj)
+    }
 }
+else {
+    let tmp = JSON.parse(localStorage.getItem("projectlist") || "[]")
+    for (let prj of tmp){
+        createNavlink(prj)
+}
+}
+
 
 /*View : Default vs Today's tasks*/
 let switches = document.getElementById("view")
@@ -229,7 +286,7 @@ switches.style.backgroundColor = "white"
 
 const dropdown = document.getElementById('tools-dropdown');
 const trigger = dropdown.querySelector("#view");
-
+trigger.style.cursor = "pointer"
 trigger.addEventListener('click', (e) => {
   // Prevent click from bubbling up (useful for closing when clicking outside)
   e.stopPropagation();
@@ -242,6 +299,7 @@ document.addEventListener('click', () => {
 });
 
 const viewlist = dropdown.querySelector(".dropdown-content")
+viewlist.style.cursor = "pointer"
 viewlist.addEventListener("click", function(event) {
   // Check if the clicked element (event.target) is an LI
   if (event.target && event.target.matches("li")) {
@@ -249,11 +307,17 @@ viewlist.addEventListener("click", function(event) {
     if(event.target.textContent === "View today's tasks"){
         document.querySelector("#second").classList.remove("is-active")
         let space = document.getElementById("today")
+        space.innerHTML=""
         let heading = space.querySelector("h2")
         heading.textContent = "Today"
-        for (const tk of tasklist){
+        if(!localStorage.getItem("tasklist")){
+            let tklist = JSON.parse(localStorage.getItem("tasklist"))
+            for (const tk of tklist){
             if(isToday(tk.getDate())=== true) createLayout(tk)
         }
+        }
+        
+       
     }
     else {
         let toremove =document.querySelector("#first")

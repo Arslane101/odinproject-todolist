@@ -219,6 +219,10 @@ input {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
 }
 
 .dropdown-content.li {
