@@ -1,69 +1,89 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <dialog popover id="task-form">
-    <form id="form-task" class="task">
-     <div id="inputs">
-    <input type="text" name="title" id="title" placeholder="Buy groceries">
-    <input type="text" name="description" id="description" placeholder="Description">
-    <div id="tags" >
-    <input type="date" name="deadline" id="deadline" >
-    <select style="background-color: #fcfaf8;" name="priority" id="priority" >
-        <option  value="p1">
-            Priority 1</option>
-        <div id = "p2">
-        <option  value="p2">Priority 2</option>
+      <form id="form-task" class="task">
+        <div id="inputs">
+          <input
+            type="text"
+            name="title"
+            id="title"
+            placeholder="Buy groceries"
+          />
+          <input
+            type="text"
+            name="description"
+            id="description"
+            placeholder="Description"
+          />
+          <div id="tags">
+            <input type="date" name="deadline" id="deadline" />
+            <select
+              style="background-color: #fcfaf8"
+              name="priority"
+              id="priority"
+            >
+              <option value="p1">Priority 1</option>
+              <div id="p2">
+                <option value="p2">Priority 2</option>
+              </div>
+              <div id="p3">
+                <option value="p3">Priority 3</option>
+              </div>
+              <div id="p4">
+                <option value="p4">Priority 4</option>
+              </div>
+              <div id="p">
+                <option value="" selected disabled hidden>Priority</option>
+              </div>
+            </select>
+          </div>
         </div>
-        <div id="p3">
-        <option  value="p3">Priority 3</option>
-        </div>
-        <div id="p4">
-        <option  value="p4" >Priority 4</option>
-        </div>
-        <div id ="p">
-        <option  value="" selected disabled hidden>Priority</option>
-        </div>
-     </select> 
-    </div>
-    </div>
-    <div id="bottomspace">
-    <div class="combobox">
-        <img src="./icons/folder-outline.svg" width="20px" height="20px">
-        <div style="display: flex;flex-direction: column; gap:1Opx">
-        <input type="text" id="combo-input" placeholder="default" autocomplete="off">
-        <div id="combo-options" class="options-list">
+        <div id="bottomspace">
+          <div class="combobox">
+            <img src="./icons/folder-outline.svg" width="20px" height="20px" />
+            <div style="display: flex; flex-direction: column; gap: 1Opx">
+              <input
+                type="text"
+                id="combo-input"
+                placeholder="default"
+                autocomplete="off"
+              />
+              <div id="combo-options" class="options-list"></div>
             </div>
+          </div>
+          <div id="buttons">
+            <button id="close-btn">Close</button>
+            <button
+              popovertarget="task-form"
+              command="Submit"
+              type="submit"
+              id="submit-form"
+            >
+              Add task
+            </button>
+          </div>
         </div>
-        </div>
-    <div id="buttons">
-    <button id="close-btn">Close</button>
-    <button popovertarget="task-form" command="Submit" type="submit" id="submit-form">Add task</button>
-    </div>
-    </div>
-    </form>
+      </form>
     </dialog>
     <div id="container">
-        <div id="main">
-            <div class="dropdown-wrapper" id="tools-dropdown">
-            <button id="view" >View</button>
-            <ul class="dropdown-content">
-                <li id="first" class="is-active">View today's tasks</li>
-                <li id="second">View default project</li>
-            </ul>
-            </div>
-            <div style="width: 30%;" id="today">
-            <h2 style="margin: 0;">Today</h2>
-            
-
+      <div id="main">
+        <div class="dropdown-wrapper" id="tools-dropdown">
+          <button id="view">View</button>
+          <ul class="dropdown-content">
+            <li id="first" class="is-active">View today's tasks</li>
+            <li id="second">View default project</li>
+          </ul>
         </div>
-            
+        <div style="width: 30%" id="today">
+          <h2 style="margin: 0">Today</h2>
         </div>
+      </div>
     </div>
-    
-</body>
+  </body>
 </html>

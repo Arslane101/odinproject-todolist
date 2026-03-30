@@ -1,123 +1,120 @@
-import {tasklist, submittask,createLayout} from "./index.js"
-import "./style.css"
-import sidebaricon from "./icons/sidebar.svg"
-import addicon from "./icons/plus-circle.svg"
-import trash from "./icons/trash-can-outline.svg"
-import {isToday} from "date-fns"
+import { tasklist, submittask, createLayout } from "./index.js";
+import "./style.css";
+import sidebaricon from "./icons/sidebar.svg";
+import addicon from "./icons/plus-circle.svg";
+import trash from "./icons/trash-can-outline.svg";
+import { isToday } from "date-fns";
 
-import filter from "./icons/filter.svg" 
-let colors = ["#D1453B","#EB8909","#246FE0","black"]
-export default colors
+import filter from "./icons/filter.svg";
+let colors = ["#D1453B", "#EB8909", "#246FE0", "black"];
+export default colors;
 
-let items 
-if (!localStorage.getItem("projectlist")){
-    items = []
+let items;
+if (!localStorage.getItem("projectlist")) {
+  items = [];
+} else items = JSON.parse(localStorage.getItem("projectlist"));
+
+const body = document.querySelector("#container");
+
+function createLink(path, classname) {
+  let link = document.createElement("a");
+  link.href = path;
+  link.className = classname;
+
+  return link;
 }
-else items = JSON.parse(localStorage.getItem("projectlist"))
-
-
-const body = document.querySelector("#container")
-
-function createLink(path,classname){
-    let link = document.createElement("a")
-    link.href = path
-    link.className = classname
-
-    return link
-}
-function createNavlink(text){
-    let trashicon = document.createElement("img")
-    trashicon.id="trash-icon"
-    trashicon.src = trash
-    trashicon.style.width = "20px"
-    trashicon.style.height = "20px"
-    let li = document.createElement("li")
-    li.textContent = text
-    li.id = text+"something"
-    li.style.cursor = "pointer"
-    let button = document.createElement("button")
-    button.style.border = "none"
-    button.prepend(trashicon)
-    button.id = text
-    button.style.backgroundColor="white"
-    button.addEventListener("click",() => {
-        document.getElementById(button.id+"something").remove()
-        let fltr = tasklist.filter(tsk => tsk.project === button.id)
-        items.splice(items.findIndex(content => content === button.id))
-        for (let elt of fltr){
-            tasklist.splice(tasklist.findIndex(item => item.getID() === elt.getID()),1)
-        }
-            if(!localStorage.getItem("tasklist")){
-            localStorage.setItem("tasklist",JSON.stringify(tasklist))
-        }
-        else {
-            localStorage.removeItem("tasklist")
-            localStorage.setItem("tasklist",JSON.stringify(tasklist))
-        }
-    })
-    li.appendChild(button)
-    li.style.display = "flex"
-    li.style.gap = "50px" 
-    li.style.fontStyle = "italic"
-    li.style.fontWeight = "bold"
-    navlist.appendChild(li)
-}
-let sidebar = document.createElement("sidebar")
-let clickCount = 0 
-sidebar.id = "sidebar"
-let link = createLink("javascript:void(0)","closebtn")
-sidebar.appendChild(link)
-body.appendChild(sidebar)
-let div = document.querySelector("#main")
-let openbutton = document.createElement("button")
-let icon = document.createElement("img")
-icon.id="main-icon"
-icon.src = sidebaricon
-icon.style.width = "20px"
-icon.style.height = "20px"
-openbutton.prepend(icon)
-openbutton.className="openbtn"
-openbutton.style.border = "none"
-openbutton.style.backgroundColor = "white"
-openbutton.addEventListener("click",() => {
-    clickCount+=1
-    if(clickCount == 1){
-        document.getElementById("sidebar").style.width = "250px"
-        document.getElementById("main").style.marginLeft = "250px"
+function createNavlink(text) {
+  let trashicon = document.createElement("img");
+  trashicon.id = "trash-icon";
+  trashicon.src = trash;
+  trashicon.style.width = "20px";
+  trashicon.style.height = "20px";
+  let li = document.createElement("li");
+  li.textContent = text;
+  li.id = text + "something";
+  li.style.cursor = "pointer";
+  let button = document.createElement("button");
+  button.style.border = "none";
+  button.prepend(trashicon);
+  button.id = text;
+  button.style.backgroundColor = "white";
+  button.addEventListener("click", () => {
+    document.getElementById(button.id + "something").remove();
+    let fltr = tasklist.filter((tsk) => tsk.project === button.id);
+    items.splice(items.findIndex((content) => content === button.id));
+    for (let elt of fltr) {
+      tasklist.splice(
+        tasklist.findIndex((item) => item.getID() === elt.getID()),
+        1,
+      );
     }
-    else if (clickCount == 2){
-        document.getElementById("sidebar").style.width = "0"
-        document.getElementById("main").style.marginLeft = "0"
-
+    if (!localStorage.getItem("tasklist")) {
+      localStorage.setItem("tasklist", JSON.stringify(tasklist));
+    } else {
+      localStorage.removeItem("tasklist");
+      localStorage.setItem("tasklist", JSON.stringify(tasklist));
     }
-    else clickCount=0
-    
-})
-div.appendChild(openbutton)
+  });
+  li.appendChild(button);
+  li.style.display = "flex";
+  li.style.gap = "50px";
+  li.style.fontStyle = "italic";
+  li.style.fontWeight = "bold";
+  navlist.appendChild(li);
+}
+let sidebar = document.createElement("sidebar");
+let clickCount = 0;
+sidebar.id = "sidebar";
+let link = createLink("javascript:void(0)", "closebtn");
+sidebar.appendChild(link);
+body.appendChild(sidebar);
+let div = document.querySelector("#main");
+let openbutton = document.createElement("button");
+let icon = document.createElement("img");
+icon.id = "main-icon";
+icon.src = sidebaricon;
+icon.style.width = "20px";
+icon.style.height = "20px";
+openbutton.prepend(icon);
+openbutton.className = "openbtn";
+openbutton.style.border = "none";
+openbutton.style.backgroundColor = "white";
+openbutton.addEventListener("click", () => {
+  clickCount += 1;
+  if (clickCount == 1) {
+    document.getElementById("sidebar").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+  } else if (clickCount == 2) {
+    document.getElementById("sidebar").style.width = "0";
+    document.getElementById("main").style.marginLeft = "0";
+  } else clickCount = 0;
+});
+div.appendChild(openbutton);
 
 /*Add task button*/
-let addbutton = document.createElement("button")
-let addicons = document.createElement("img")
-let modal = document.querySelector("#task-form")
-addicons.id="add-icon"
-addicons.src = addicon
-addicons.style.filter = "invert(39%) sepia(37%) saturate(2327%) hue-rotate(334deg) brightness(94%) contrast(85%)"
-addbutton.className = "sidebar-buttons"
-addicons.style.width = "20px"
-addbutton.style.marginTop = "50px"
-addicons.style.height = "20px"
-addbutton.textContent = "Add task"
-addbutton.style.color = "#DF5141"
-addbutton.style.textAlign = "center"
-addbutton.style.fontSize = "15px"
-addbutton.style.fontWeight = "900"
-addbutton.popoverTargetElement = modal
-addbutton.addEventListener("click",() => modal.showModal())
-let closebutton = document.querySelector("#close-btn")
-let submitbutton = document.querySelector("#submit-form")
-closebutton.addEventListener("click",() => modal.close())
-addbutton.prepend(addicons)
-sidebar.appendChild(addbutton)   
+let addbutton = document.createElement("button");
+let addicons = document.createElement("img");
+let modal = document.querySelector("#task-form");
+addicons.id = "add-icon";
+addicons.src = addicon;
+addicons.style.filter =
+  "invert(39%) sepia(37%) saturate(2327%) hue-rotate(334deg) brightness(94%) contrast(85%)";
+addbutton.className = "sidebar-buttons";
+addicons.style.width = "20px";
+addbutton.style.marginTop = "50px";
+addicons.style.height = "20px";
+addbutton.textContent = "Add task";
+addbutton.style.color = "#DF5141";
+addbutton.style.textAlign = "center";
+addbutton.style.fontSize = "15px";
+addbutton.style.fontWeight = "900";
+addbutton.popoverTargetElement = modal;
+addbutton.addEventListener("click", () => modal.showModal());
+let closebutton = document.querySelector("#close-btn");
+let submitbutton = document.querySelector("#submit-form");
+closebutton.addEventListener("click", () => modal.close());
+addbutton.prepend(addicons);
+sidebar.appendChild(addbutton);
 
 /*priorities coloring (needs work)
 let submit = document.querySelector("#priority")
@@ -129,75 +126,76 @@ flagicon.style.height = "20px"
 */
 /* Today's tasks*/
 
-submitbutton.addEventListener("click",submittask)
+submitbutton.addEventListener("click", submittask);
 
-function clearContent(text){
-    let space = document.getElementById("today")
-    space.innerHTML = ""
-    let heading = document.createElement("h2")
-    heading.textContent = "Project : " + text  
-    heading.style.margin = "0"
-    space.appendChild(heading)
-    if(!localStorage.getItem("tasklist")){
-        tasklist = JSON.parse(localStorage.getItem("tasklist"))
-    }
-    let view = tasklist.filter(task => task.project === text)
-    
-    console.log("here")
-    console.log(view)
-    for (const tsk of view){
-        createLayout(tsk)
-    }
+function clearContent(text) {
+  let space = document.getElementById("today");
+  space.innerHTML = "";
+  let heading = document.createElement("h2");
+  heading.textContent = "Project : " + text;
+  heading.style.margin = "0";
+  space.appendChild(heading);
+  let tso
+  if (!localStorage.getItem("tasklist")) {
+    tso = JSON.parse(localStorage.getItem("tasklist"));
+  }
+  else tso = tasklist
+  let view = tso.filter((task) => task.project === text);
 
+  console.log("here");
+  console.log(view);
+  for (const tsk of view) {
+    createLayout(tsk);
+  }
 }
 
 /*navigate through projects*/
-let projectlist = document.createElement("div")
-projectlist.className = "nav-container" 
-projectlist.style.width = "200px"
-projectlist.style.cursor = "pointer"
-projectlist.style.userSelect = "none"
-let header = document.createElement("div")
-header.id = "projects-toggle"
-header.className = "nav-header"
-header.style.display = "flex"
-header.style.alignItems = "center"
-header.style.padding = "10px"
-header.style.borderRadius = "4px"
-let title = document.createElement("span")
-title.className = "special"
-title.textContent = "My projects"
+let projectlist = document.createElement("div");
+projectlist.className = "nav-container";
+projectlist.style.width = "200px";
+projectlist.style.cursor = "pointer";
+projectlist.style.userSelect = "none";
+let header = document.createElement("div");
+header.id = "projects-toggle";
+header.className = "nav-header";
+header.style.display = "flex";
+header.style.alignItems = "center";
+header.style.padding = "10px";
+header.style.borderRadius = "4px";
+let title = document.createElement("span");
+title.className = "special";
+title.textContent = "My projects";
 
-header.appendChild(title)
-projectlist.appendChild(header)
+header.appendChild(title);
+projectlist.appendChild(header);
 
-sidebar.appendChild(projectlist)
-let navlist = document.createElement("ul")
-navlist.className = "nav-list"
-navlist.id = "navigation"
-navlist.addEventListener("click", function(event) {
+sidebar.appendChild(projectlist);
+let navlist = document.createElement("ul");
+navlist.className = "nav-list";
+navlist.id = "navigation";
+navlist.addEventListener("click", function (event) {
   // Check if the clicked element (event.target) is an LI
   if (event.target && event.target.matches("li")) {
     event.target.classList.add("active");
-    event.target.style.fontWeight = "900"
-    clearContent(event.target.textContent)
+    event.target.style.fontWeight = "900";
+    clearContent(event.target.textContent);
   }
 });
 
-projectlist.append(navlist)
-const toggle = document.getElementById('projects-toggle');
+projectlist.append(navlist);
+const toggle = document.getElementById("projects-toggle");
 const container = toggle.parentElement;
-toggle.addEventListener('click', () => {
-  container.classList.toggle('open');
+toggle.addEventListener("click", () => {
+  container.classList.toggle("open");
 });
 
 /*Add project and select */
-let combo = document.querySelector("#combo-input")
-let options = document.querySelector("#combo-options")
+let combo = document.querySelector("#combo-input");
+let options = document.querySelector("#combo-options");
 
 function selectItem(val) {
   combo.value = val;
-  options.style.display = 'none';
+  options.style.display = "none";
 }
 
 function addItem(val) {
@@ -206,123 +204,111 @@ function addItem(val) {
 }
 
 function renderList(filter = "") {
-    options.innerHTML = ""
-    const filtered = items.filter(item => item.toLowerCase().includes(filter.toLowerCase()))
+  options.innerHTML = "";
+  const filtered = items.filter((item) =>
+    item.toLowerCase().includes(filter.toLowerCase()),
+  );
 
-    // Show matches : If you didn't filter , it shows everything 
-    filtered.forEach(item => {
-        const option = document.createElement("div")
-        option.className = "option-item"
-        option.textContent = item
-        option.onclick = () => selectItem(item)
-        options.appendChild(option)
+  // Show matches : If you didn't filter , it shows everything
+  filtered.forEach((item) => {
+    const option = document.createElement("div");
+    option.className = "option-item";
+    option.textContent = item;
+    option.onclick = () => selectItem(item);
+    options.appendChild(option);
+  });
 
-    })
+  //add button
+  if (filter && !items.find((i) => i.toLowerCase() === filter.toLowerCase())) {
+    const addDiv = document.createElement("div");
+    addDiv.className = "new-option";
+    addDiv.textContent = `Add ${filter}`;
+    addDiv.style.cursor = "pointer";
+    addDiv.onclick = () => {
+      addItem(filter);
+      createNavlink(filter);
 
-    //add button 
-    if( filter && !items.find(i => i.toLowerCase() === filter.toLowerCase())){
-        const addDiv = document.createElement("div")
-        addDiv.className = "new-option"
-        addDiv.textContent = `Add ${filter}`
-        addDiv.style.cursor = "pointer"
-        addDiv.onclick = () => {
-            addItem(filter)
-            createNavlink(filter)
-
-            if(!localStorage.getItem("projectlist")){
-                localStorage.setItem("projectlist",JSON.stringify(items))
-                console.log(localStorage.getItem("projectlist"))
-            }
-            else {
-                localStorage.removeItem("projectlist")
-                localStorage.setItem("projectlist",JSON.stringify(items))
-                console.log(localStorage.getItem("projectlist"))
-
-            }
-
-
-
-        }
-        options.appendChild(addDiv)
-    }
-    options.style.display = (filtered.length > 0 || filter) ? 'block' : 'none'
-
+      if (!localStorage.getItem("projectlist")) {
+        localStorage.setItem("projectlist", JSON.stringify(items));
+        console.log(localStorage.getItem("projectlist"));
+      } else {
+        localStorage.removeItem("projectlist");
+        localStorage.setItem("projectlist", JSON.stringify(items));
+        console.log(localStorage.getItem("projectlist"));
+      }
+    };
+    options.appendChild(addDiv);
+  }
+  options.style.display = filtered.length > 0 || filter ? "block" : "none";
 }
-combo.addEventListener('input',(e) => renderList(e.target.value))
+combo.addEventListener("input", (e) => renderList(e.target.value));
 
-
-if(!localStorage.getItem("projectlist")){
-    for (let prj of items){
-        createNavlink(prj)
-    }
+if (!localStorage.getItem("projectlist")) {
+  for (let prj of items) {
+    createNavlink(prj);
+  }
+} else {
+  let tmp = JSON.parse(localStorage.getItem("projectlist") || "[]");
+  for (let prj of tmp) {
+    createNavlink(prj);
+  }
 }
-else {
-    let tmp = JSON.parse(localStorage.getItem("projectlist") || "[]")
-    for (let prj of tmp){
-        createNavlink(prj)
-}
-}
-
 
 /*View : Default vs Today's tasks*/
-let switches = document.getElementById("view")
-switches.style.border = "none"
-let filtericon = document.createElement("img")
-filtericon.src = filter
-filtericon.style.width = "20px"
-filtericon.style.height = "20px"
-switches.textContent = "View"
-switches.style.fontSize = "17px"
-switches.style.fontWeight = "bold"
-switches.style.textAlign = "center"
-switches.prepend(filtericon)
-switches.style.width = "70px"
-switches.style.height = "30px"
-switches.style.display = "flex"
-switches.style.alignItems = "center"
-switches.style.borderRadius = "20%"
-switches.style.backgroundColor = "white"
+let switches = document.getElementById("view");
+switches.style.border = "none";
+let filtericon = document.createElement("img");
+filtericon.src = filter;
+filtericon.style.width = "20px";
+filtericon.style.height = "20px";
+switches.textContent = "View";
+switches.style.fontSize = "17px";
+switches.style.fontWeight = "bold";
+switches.style.textAlign = "center";
+switches.prepend(filtericon);
+switches.style.width = "70px";
+switches.style.height = "30px";
+switches.style.display = "flex";
+switches.style.alignItems = "center";
+switches.style.borderRadius = "20%";
+switches.style.backgroundColor = "white";
 
-
-const dropdown = document.getElementById('tools-dropdown');
+const dropdown = document.getElementById("tools-dropdown");
 const trigger = dropdown.querySelector("#view");
-trigger.style.cursor = "pointer"
-trigger.addEventListener('click', (e) => {
+trigger.style.cursor = "pointer";
+trigger.addEventListener("click", (e) => {
   // Prevent click from bubbling up (useful for closing when clicking outside)
   e.stopPropagation();
-  dropdown.classList.toggle('is-open');
+  dropdown.classList.toggle("is-open");
 });
 
 // Close the menu if you click anywhere else on the page
-document.addEventListener('click', () => {
-  dropdown.classList.remove('is-open');
+document.addEventListener("click", () => {
+  dropdown.classList.remove("is-open");
 });
 
-const viewlist = dropdown.querySelector(".dropdown-content")
-viewlist.style.cursor = "pointer"
-viewlist.addEventListener("click", function(event) {
+const viewlist = dropdown.querySelector(".dropdown-content");
+viewlist.style.cursor = "pointer";
+viewlist.addEventListener("click", function (event) {
   // Check if the clicked element (event.target) is an LI
   if (event.target && event.target.matches("li")) {
     event.target.classList.add("is-active");
-    if(event.target.textContent === "View today's tasks"){
-        document.querySelector("#second").classList.remove("is-active")
-        let space = document.getElementById("today")
-        space.innerHTML=""
-        let heading = space.querySelector("h2")
-        heading.textContent = "Today"
-        if(!localStorage.getItem("tasklist")){
-            let tklist = JSON.parse(localStorage.getItem("tasklist"))
-            for (const tk of tklist){
-            if(isToday(tk.getDate())=== true) createLayout(tk)
+    if (event.target.textContent === "View today's tasks") {
+      document.querySelector("#second").classList.remove("is-active");
+      let space = document.getElementById("today");
+      space.innerHTML = "";
+      let heading = space.querySelector("h2");
+      heading.textContent = "Today";
+      if (!localStorage.getItem("tasklist")) {
+        let tklist = JSON.parse(localStorage.getItem("tasklist"));
+        for (const tk of tklist) {
+          if (isToday(tk.getDate()) === true) createLayout(tk);
         }
-        }
-        
-       
-    }
-    else {
-        let toremove =document.querySelector("#first")
-        toremove.classList.remove("is-active")
-        clearContent("default")
+      }
+    } else {
+      let toremove = document.querySelector("#first");
+      toremove.classList.remove("is-active");
+      clearContent("default");
     }
   }
 });

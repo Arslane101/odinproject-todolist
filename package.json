@@ -5,9 +5,9 @@
   "main": "index2.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "install": "npm install -D html-loader && npm install -D html-webpack-plugin && npm install -D css-loader style-loader && npm install date-fns --save -D && npm install -D webpack-dev-server",
+    "install": "npm init @eslint/config@latest &&  npm install --save-dev --save-exact prettier &&npm install -D html-loader && npm install -D html-webpack-plugin && npm install -D css-loader style-loader && npm install date-fns --save -D && npm install -D webpack-dev-server",
     "dev": "webpack serve",
-    "build":  "npx webpack"
+    "build": "npx webpack"
   },
   "repository": {
     "type": "git",
@@ -22,8 +22,11 @@
   },
   "homepage": "https://github.com/Arslane101/odinproject-todolist#readme",
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "css-loader": "^7.1.4",
     "date-fns": "^4.1.0",
+    "eslint": "^10.1.0",
+    "globals": "^17.4.0",
     "html-webpack-plugin": "^5.6.6",
     "style-loader": "^4.0.0",
     "webpack": "^5.105.4",
